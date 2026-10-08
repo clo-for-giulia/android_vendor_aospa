@@ -110,9 +110,9 @@ PRODUCT_COPY_FILES += \
 PRODUCT_PACKAGES += \
     vendor.aospa.power-service
 
-# Google - GMS, Pixel, and Mainline Modules
+# GMS / microG / Vanilla selection
+ifeq ($(WITH_GMS),true)
 $(call inherit-product, vendor/google/gms/config.mk)
-$(call inherit-product, vendor/google/pixel/config.mk)
 ifneq ($(TARGET_EXCLUDE_GMODULES), true)
 $(call inherit-product-if-exists, vendor/google/modules/build/mainline_modules.mk)
 endif
@@ -120,6 +120,25 @@ endif
 PRODUCT_PRODUCT_PROPERTIES += \
     remote_provisioning.enable_rkpd=true \
     remote_provisioning.hostname=remoteprovisioning.googleapis.com
+else
+ifeq ($(WITH_MICROG),true)
+$(call inherit-product-if-exists, vendor/partner_gms/products/gms.mk)
+endif
+
+# LineageOS / Core Apps
+PRODUCT_PACKAGES += \
+    Contacts \
+    DeskClock \
+    Etar \
+    ExactCalculator \
+    Glimpse \
+    LatinIME \
+    messaging \
+    ViaBrowser
+endif
+
+# Pixel overlays, clocks, and proprietary assets
+$(call inherit-product, vendor/google/pixel/config.mk)
 
 # HIDL
 DEVICE_FRAMEWORK_COMPATIBILITY_MATRIX_FILE += \
