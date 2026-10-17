@@ -5,3 +5,7 @@ hal_client_domain(platform_app, hal_aospa_powershare)
 
 # Allow LineageHealth HAL service to be found
 hal_client_domain(platform_app, hal_lineage_health)
+
+# GameSpace
+add_service(platform_app, game_space_service)
+
